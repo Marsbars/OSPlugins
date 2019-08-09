@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -125,7 +124,7 @@ public class Main : wManager.Plugin.IPlugin
                         foreach (WoWUnit Mob in MobList)
                         {
                             var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(Mob.Name));
-                            var colour = Color.FromArgb(hash[0], hash[1], hash[2]);
+                            var colour = System.Drawing.Color.FromArgb(hash[0], hash[1], hash[2]);
                             if (!Mob.IsTaggedByOther)
                             {
                                 Radar3D.DrawCircle(Mob.Position, 1f, colour, true, 200);
