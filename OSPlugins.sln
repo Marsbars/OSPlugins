@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mRecipeSniper", "mRecipeSni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mRequestHandler", "mRequestHandler\mRequestHandler.csproj", "{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mTrainSkillsOverride", "mTrainSkillsOverride\mTrainSkillsOverride.csproj", "{C4442AC6-D01B-42AA-AB3E-F765BDC38909}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4442AC6-D01B-42AA-AB3E-F765BDC38909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4442AC6-D01B-42AA-AB3E-F765BDC38909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4442AC6-D01B-42AA-AB3E-F765BDC38909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4442AC6-D01B-42AA-AB3E-F765BDC38909}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
