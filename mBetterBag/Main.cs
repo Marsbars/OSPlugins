@@ -26,6 +26,9 @@ public class Main : wManager.Plugin.IPlugin
 
     public void Initialize()
     {
+        // PLUGIN NOT IN A WORKING STATE.
+        // PLUGIN NOT IN A WORKING STATE.
+        // PLUGIN NOT IN A WORKING STATE.
         mBetterBagSettings.Load();
         bagCheckTimer.Elapsed += BagCheckTimer_Elapsed;
         bagCheckTimer.Interval = 5000;
