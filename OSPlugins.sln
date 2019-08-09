@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mQuestObjMarker", "mQuestOb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mRecipeSniper", "mRecipeSniper\mRecipeSniper.csproj", "{58195C0B-D369-4C33-BDD9-A53D96AF255D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mRequestHandler", "mRequestHandler\mRequestHandler.csproj", "{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{58195C0B-D369-4C33-BDD9-A53D96AF255D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58195C0B-D369-4C33-BDD9-A53D96AF255D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58195C0B-D369-4C33-BDD9-A53D96AF255D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A8C8AE-3FA7-4B96-9B38-02EB7EBF91C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
