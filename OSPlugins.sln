@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mRequestHandler", "mRequest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mTrainSkillsOverride", "mTrainSkillsOverride\mTrainSkillsOverride.csproj", "{C4442AC6-D01B-42AA-AB3E-F765BDC38909}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mBuffer", "mBuffer\mBuffer.csproj", "{23DB892F-E35D-4B10-9FF7-367C4231B01C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{C4442AC6-D01B-42AA-AB3E-F765BDC38909}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4442AC6-D01B-42AA-AB3E-F765BDC38909}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4442AC6-D01B-42AA-AB3E-F765BDC38909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23DB892F-E35D-4B10-9FF7-367C4231B01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23DB892F-E35D-4B10-9FF7-367C4231B01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23DB892F-E35D-4B10-9FF7-367C4231B01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23DB892F-E35D-4B10-9FF7-367C4231B01C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
