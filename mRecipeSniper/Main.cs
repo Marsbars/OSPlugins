@@ -53,61 +53,63 @@ public class Main : wManager.Plugin.IPlugin
         mRecipeSniperSettings.CurrentSetting.Save();
     }
 
-    [Serializable]
-    public class mRecipeSniperSettings : Settings
+    
+}
+[Serializable]
+public class mRecipeSniperSettings : Settings
+{
+
+    [Setting]
+    [DefaultValue("")]
+    [Category("Config")]
+    [DisplayName("Items to snipe")]
+    [Description("It will attempt to buy the Items every buy interval")]
+    public List<string> Items { get; set; }
+
+    [Setting]
+    [DefaultValue(1000)]
+    [Category("Config")]
+    [DisplayName("Buy Interval")]
+    [Description("Buy interval in seconds")]
+    public long BuyInterval { get; set; }
+
+    private mRecipeSniperSettings()
     {
+        Items = new List<string>();
+        BuyInterval = 3;
+    }
 
-        [Setting]
-        [DefaultValue("")]
-        [Category("Config")]
-        [DisplayName("Items to snipe")]
-        [Description("It will attempt to buy the Items every buy interval")]
-        public List<string> Items { get; set; }
+    public static mRecipeSniperSettings CurrentSetting { get; set; }
 
-        [Setting]
-        [DefaultValue(1000)]
-        [Category("Config")]
-        [DisplayName("Buy Interval")]
-        [Description("Buy interval in seconds")]
-        public long BuyInterval { get; set; }
-
-        private mRecipeSniperSettings()
+    public bool Save()
+    {
+        try
         {
-            BuyInterval = 3;
+            return Save(AdviserFilePathAndName("mRecipeSniper", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
-
-        public static mRecipeSniperSettings CurrentSetting { get; set; }
-
-        public bool Save()
+        catch (Exception e)
         {
-            try
-            {
-                return Save(AdviserFilePathAndName("mRecipeSniper", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mRecipeSniperSettings > Save(): " + e);
-                return false;
-            }
-        }
-
-        public static bool Load()
-        {
-            try
-            {
-                if (File.Exists(AdviserFilePathAndName("mRecipeSniper", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
-                {
-                    CurrentSetting =
-                        Load<mRecipeSniperSettings>(AdviserFilePathAndName("mRecipeSniper", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-                    return true;
-                }
-                CurrentSetting = new mRecipeSniperSettings();
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mRecipeSniperSettings > Load(): " + e);
-            }
+            Logging.WriteError("mRecipeSniperSettings > Save(): " + e);
             return false;
         }
+    }
+
+    public static bool Load()
+    {
+        try
+        {
+            if (File.Exists(AdviserFilePathAndName("mRecipeSniper", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            {
+                CurrentSetting =
+                    Load<mRecipeSniperSettings>(AdviserFilePathAndName("mRecipeSniper", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                return true;
+            }
+            CurrentSetting = new mRecipeSniperSettings();
+        }
+        catch (Exception e)
+        {
+            Logging.WriteError("mRecipeSniperSettings > Load(): " + e);
+        }
+        return false;
     }
 }

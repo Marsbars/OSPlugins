@@ -22,17 +22,16 @@ public class Main : wManager.Plugin.IPlugin
     public robotManager.Helpful.Timer timer = new robotManager.Helpful.Timer(1000);
     private MD5 md5;
     private Radar3D.OnDrawHandler handler;
-    private KeyboardHook _hookKeybindings = new KeyboardHook();
     private List<string> customMobList = new List<string>();
-
+    private List<int> _hotkeys = new List<int>();
 
     public void Dispose()
     {
         Radar3D.OnDrawEvent -= handler;
         Radar3D.Stop();
-        for (int i = 0; i < 10; i++)
+        foreach (var hotkey in _hotkeys)
         {
-            HotKeyManager.UnregisterHotKey(i);
+            HotKeyManager.UnregisterHotKey(hotkey);
         }
     }
 
@@ -45,11 +44,11 @@ public class Main : wManager.Plugin.IPlugin
         handler = new Radar3D.OnDrawHandler(Monitor);
         Radar3D.OnDrawEvent += handler;
 
-        HotKeyManager.RegisterHotKey(Keys.T, KeyModifiers.Control); // Add Target
-        HotKeyManager.RegisterHotKey(Keys.T, KeyModifiers.Alt); // Remove Target
-        //HotKeyManager.RegisterHotKey(Keys.G, KeyModifiers.Control); // Remove Target
-        HotKeyManager.RegisterHotKey(Keys.L, KeyModifiers.Control); // Show Custom Target List
-        HotKeyManager.RegisterHotKey(Keys.L, KeyModifiers.Alt); // Clear Custom Target List
+        _hotkeys.Add(HotKeyManager.RegisterHotKey(Keys.T, KeyModifiers.Control)); // Add Target
+        _hotkeys.Add(HotKeyManager.RegisterHotKey(Keys.T, KeyModifiers.Alt)); // Remove Target
+                                                                              // _hotkeys.Add(//HotKeyManager.RegisterHotKey(Keys.G, KeyModifiers.Control); // Remove Target
+        _hotkeys.Add(HotKeyManager.RegisterHotKey(Keys.L, KeyModifiers.Control)); // Show Custom Target List
+        _hotkeys.Add(HotKeyManager.RegisterHotKey(Keys.L, KeyModifiers.Alt)); // Clear Custom Target List
         HotKeyManager.HotKeyPressed += new EventHandler<HotKeyEventArgs>(HotKeyManager_HotKeyPressed);
     }
 
@@ -195,78 +194,79 @@ public class Main : wManager.Plugin.IPlugin
         mQuestObjMarkerSettings.CurrentSetting.Save();
     }
 
-    [Serializable]
-    public class mQuestObjMarkerSettings : Settings
+    
+}
+[Serializable]
+public class mQuestObjMarkerSettings : Settings
+{
+
+    [Setting]
+    [DefaultValue(99)]
+    [Category("Range")]
+    [DisplayName("Search Range")]
+    [Description("The search range in yards")]
+    public long SearchRange { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Tracking")]
+    [DisplayName("Quest Game Objects")]
+    [Description("")]
+    public bool EnableGO { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Tracking")]
+    [DisplayName("Quest Mobs")]
+    [Description("")]
+    public bool EnableMobs { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Tracking")]
+    [DisplayName("Players")]
+    [Description("")]
+    public bool EnablePlayers { get; set; }
+
+    private mQuestObjMarkerSettings()
     {
+        EnablePlayers = true;
+        EnableMobs = true;
+        EnableGO = true;
+        SearchRange = 99;
+    }
 
-        [Setting]
-        [DefaultValue(99)]
-        [Category("Range")]
-        [DisplayName("Search Range")]
-        [Description("The search range in yards")]
-        public long SearchRange { get; set; }
+    public static mQuestObjMarkerSettings CurrentSetting { get; set; }
 
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Tracking")]
-        [DisplayName("Quest Game Objects")]
-        [Description("")]
-        public bool EnableGO { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Tracking")]
-        [DisplayName("Quest Mobs")]
-        [Description("")]
-        public bool EnableMobs { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("Tracking")]
-        [DisplayName("Players")]
-        [Description("")]
-        public bool EnablePlayers { get; set; }
-
-        private mQuestObjMarkerSettings()
+    public bool Save()
+    {
+        try
         {
-            EnablePlayers = true;
-            EnableMobs = true;
-            EnableGO = true;
-            SearchRange = 99;
+            return Save(AdviserFilePathAndName("mQuestObjMarker", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
-
-        public static mQuestObjMarkerSettings CurrentSetting { get; set; }
-
-        public bool Save()
+        catch (Exception e)
         {
-            try
-            {
-                return Save(AdviserFilePathAndName("mQuestObjMarker", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mQuestObjMarkerSettings > Save(): " + e);
-                return false;
-            }
-        }
-
-        public static bool Load()
-        {
-            try
-            {
-                if (File.Exists(AdviserFilePathAndName("mQuestObjMarker", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
-                {
-                    CurrentSetting =
-                        Load<mQuestObjMarkerSettings>(AdviserFilePathAndName("mQuestObjMarker", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-                    return true;
-                }
-                CurrentSetting = new mQuestObjMarkerSettings();
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mQuestObjMarkerSettings > Load(): " + e);
-            }
+            Logging.WriteError("mQuestObjMarkerSettings > Save(): " + e);
             return false;
         }
+    }
+
+    public static bool Load()
+    {
+        try
+        {
+            if (File.Exists(AdviserFilePathAndName("mQuestObjMarker", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            {
+                CurrentSetting =
+                    Load<mQuestObjMarkerSettings>(AdviserFilePathAndName("mQuestObjMarker", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                return true;
+            }
+            CurrentSetting = new mQuestObjMarkerSettings();
+        }
+        catch (Exception e)
+        {
+            Logging.WriteError("mQuestObjMarkerSettings > Load(): " + e);
+        }
+        return false;
     }
 }

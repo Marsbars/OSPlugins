@@ -127,59 +127,61 @@ public class Main : wManager.Plugin.IPlugin
         mBufferSettings.CurrentSetting.Save();
     }
 
-    [Serializable]
-    public class mBufferSettings : Settings
+    
+}
+[Serializable]
+public class mBufferSettings : Settings
+{
+
+    [Setting]
+    [Category("Settings")]
+    [DisplayName("Config")]
+    [Description("Description")]
+    public List<string> BuffSpells { get; set; }
+
+    [Setting]
+    [Category("Config")]
+    [DisplayName("Minimum mana percentage")]
+    [Description("Minimum amount of mana required before buffing")]
+    public int MinMana { get; set; }
+
+    private mBufferSettings()
     {
+        BuffSpells = new List<string>();
+        MinMana = 60;
+    }
 
-        [Setting]
-        [Category("Settings")]
-        [DisplayName("Config")]
-        [Description("Description")]
-        public List<string> BuffSpells { get; set; }
+    public static mBufferSettings CurrentSetting { get; set; }
 
-        [Setting]        
-        [Category("Config")]
-        [DisplayName("Minimum mana percentage")]
-        [Description("Minimum amount of mana required before buffing")]
-        public int MinMana { get; set; }
-
-        private mBufferSettings()
+    public bool Save()
+    {
+        try
         {
-            MinMana = 60;
+            return Save(AdviserFilePathAndName("mBuffer", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
-
-        public static mBufferSettings CurrentSetting { get; set; }
-
-        public bool Save()
+        catch (Exception e)
         {
-            try
-            {
-                return Save(AdviserFilePathAndName("mBuffer", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mBufferSettings > Save(): " + e);
-                return false;
-            }
-        }
-
-        public static bool Load()
-        {
-            try
-            {
-                if (File.Exists(AdviserFilePathAndName("mBuffer", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
-                {
-                    CurrentSetting =
-                        Load<mBufferSettings>(AdviserFilePathAndName("mBuffer", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-                    return true;
-                }
-                CurrentSetting = new mBufferSettings();
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mBufferSettings > Load(): " + e);
-            }
+            Logging.WriteError("mBufferSettings > Save(): " + e);
             return false;
         }
+    }
+
+    public static bool Load()
+    {
+        try
+        {
+            if (File.Exists(AdviserFilePathAndName("mBuffer", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            {
+                CurrentSetting =
+                    Load<mBufferSettings>(AdviserFilePathAndName("mBuffer", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                return true;
+            }
+            CurrentSetting = new mBufferSettings();
+        }
+        catch (Exception e)
+        {
+            Logging.WriteError("mBufferSettings > Load(): " + e);
+        }
+        return false;
     }
 }

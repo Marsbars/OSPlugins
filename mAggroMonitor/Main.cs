@@ -57,79 +57,80 @@ public class Main : wManager.Plugin.IPlugin
         mAggroMonitorSettings.CurrentSetting.Save();
     }
 
-    [Serializable]
-    public class mAggroMonitorSettings : Settings
+    
+}
+[Serializable]
+public class mAggroMonitorSettings : Settings
+{
+    [Setting]
+    [DefaultValue("")]
+    [Category("Tanks")]
+    [DisplayName("Tank #1")]
+    [Description("Name a tank you wish to ignore")]
+    public string Tank1 { get; set; }
+
+    [Setting]
+    [DefaultValue("")]
+    [Category("Tanks")]
+    [DisplayName("Tank #2")]
+    [Description("Name a tank you wish to ignore")]
+    public string Tank2 { get; set; }
+
+    [Setting]
+    [DefaultValue("")]
+    [Category("Tanks")]
+    [DisplayName("Tank #3")]
+    [Description("Name a tank you wish to ignore")]
+    public string Tank3 { get; set; }
+
+    [Setting]
+    [DefaultValue(20)]
+    [Category("Range")]
+    [DisplayName("Search Range")]
+    [Description("The search range in yards")]
+    public int SearchRange { get; set; }
+
+    private mAggroMonitorSettings()
     {
-        [Setting]
-        [DefaultValue("")]
-        [Category("Tanks")]
-        [DisplayName("Tank #1")]
-        [Description("Name a tank you wish to ignore")]
-        public string Tank1 { get; set; }
+        Tank1 = "";
+        Tank2 = "";
+        Tank3 = "";
+        SearchRange = 20;
 
-        [Setting]
-        [DefaultValue("")]
-        [Category("Tanks")]
-        [DisplayName("Tank #2")]
-        [Description("Name a tank you wish to ignore")]
-        public string Tank2 { get; set; }
+        ConfigWinForm(new System.Drawing.Point(300, 400), "mAggroMonitor " + Translate.Get("Settings"));
+    }
 
-        [Setting]
-        [DefaultValue("")]
-        [Category("Tanks")]
-        [DisplayName("Tank #3")]
-        [Description("Name a tank you wish to ignore")]
-        public string Tank3 { get; set; }
+    public static mAggroMonitorSettings CurrentSetting { get; set; }
 
-        [Setting]
-        [DefaultValue(20)]
-        [Category("Range")]
-        [DisplayName("Search Range")]
-        [Description("The search range in yards")]
-        public int SearchRange { get; set; }
-
-        private mAggroMonitorSettings()
+    public bool Save()
+    {
+        try
         {
-            Tank1 = "";
-            Tank2 = "";
-            Tank3 = "";
-            SearchRange = 20;
-
-            ConfigWinForm(new System.Drawing.Point(300, 400), "mAggroMonitor " + Translate.Get("Settings"));
+            return Save(AdviserFilePathAndName("mAggroMonitor", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
-
-        public static mAggroMonitorSettings CurrentSetting { get; set; }
-
-        public bool Save()
+        catch (Exception e)
         {
-            try
-            {
-                return Save(AdviserFilePathAndName("mAggroMonitor", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mAggroMonitorSettings > Save(): " + e);
-                return false;
-            }
-        }
-
-        public static bool Load()
-        {
-            try
-            {
-                if (File.Exists(AdviserFilePathAndName("mAggroMonitor", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
-                {
-                    CurrentSetting =
-                        Load<mAggroMonitorSettings>(AdviserFilePathAndName("mAggroMonitor", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-                    return true;
-                }
-                CurrentSetting = new mAggroMonitorSettings();
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mAggroMonitorSettings > Load(): " + e);
-            }
+            Logging.WriteError("mAggroMonitorSettings > Save(): " + e);
             return false;
         }
+    }
+
+    public static bool Load()
+    {
+        try
+        {
+            if (File.Exists(AdviserFilePathAndName("mAggroMonitor", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            {
+                CurrentSetting =
+                    Load<mAggroMonitorSettings>(AdviserFilePathAndName("mAggroMonitor", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                return true;
+            }
+            CurrentSetting = new mAggroMonitorSettings();
+        }
+        catch (Exception e)
+        {
+            Logging.WriteError("mAggroMonitorSettings > Load(): " + e);
+        }
+        return false;
     }
 }

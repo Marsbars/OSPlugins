@@ -15,8 +15,6 @@ using wManager.Wow.ObjectManager;
 
 public class Main : wManager.Plugin.IPlugin
 {
-    private bool _isLaunched;
-
     public void Dispose()
     {
 
@@ -66,54 +64,55 @@ public class Main : wManager.Plugin.IPlugin
         mMoneyMailerSettings.CurrentSetting.Save();
     }
 
-    [Serializable]
-    public class mMoneyMailerSettings : Settings
+    
+}
+[Serializable]
+public class mMoneyMailerSettings : Settings
+{
+
+    [Setting]
+    [DefaultValue(100)]
+    [Category("Settings")]
+    [DisplayName("Amount To Keep")]
+    [Description("The amount of silver the bot keeps, rest is mailed")]
+    public long AmountToKeep { get; set; }
+
+    private mMoneyMailerSettings()
     {
+        AmountToKeep = 100;
+    }
 
-        [Setting]
-        [DefaultValue(100)]
-        [Category("Settings")]
-        [DisplayName("Amount To Keep")]
-        [Description("The amount of silver the bot keeps, rest is mailed")]
-        public long AmountToKeep { get; set; }
+    public static mMoneyMailerSettings CurrentSetting { get; set; }
 
-        private mMoneyMailerSettings()
+    public bool Save()
+    {
+        try
         {
-            AmountToKeep = 100;
+            return Save(AdviserFilePathAndName("mMoneyMailer", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
-
-        public static mMoneyMailerSettings CurrentSetting { get; set; }
-
-        public bool Save()
+        catch (Exception e)
         {
-            try
-            {
-                return Save(AdviserFilePathAndName("mMoneyMailer", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mMoneyMailerSettings > Save(): " + e);
-                return false;
-            }
-        }
-
-        public static bool Load()
-        {
-            try
-            {
-                if (File.Exists(AdviserFilePathAndName("mMoneyMailer", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
-                {
-                    CurrentSetting =
-                        Load<mMoneyMailerSettings>(AdviserFilePathAndName("mMoneyMailer", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-                    return true;
-                }
-                CurrentSetting = new mMoneyMailerSettings();
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mMoneyMailerSettings > Load(): " + e);
-            }
+            Logging.WriteError("mMoneyMailerSettings > Save(): " + e);
             return false;
         }
+    }
+
+    public static bool Load()
+    {
+        try
+        {
+            if (File.Exists(AdviserFilePathAndName("mMoneyMailer", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            {
+                CurrentSetting =
+                    Load<mMoneyMailerSettings>(AdviserFilePathAndName("mMoneyMailer", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                return true;
+            }
+            CurrentSetting = new mMoneyMailerSettings();
+        }
+        catch (Exception e)
+        {
+            Logging.WriteError("mMoneyMailerSettings > Load(): " + e);
+        }
+        return false;
     }
 }

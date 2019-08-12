@@ -194,175 +194,176 @@ public class Main : wManager.Plugin.IPlugin
         mRequestHandlerSettings.CurrentSetting.Save();
     }
 
-    [Serializable]
-    public class mRequestHandlerSettings : Settings
+    
+}
+[Serializable]
+public class mRequestHandlerSettings : Settings
+{
+
+    [Setting]
+    [DefaultValue(500)]
+    [Category("Config")]
+    [DisplayName("Min wait time in MS")]
+    [Description("")]
+    public long WaitMin { get; set; }
+
+    [Setting]
+    [DefaultValue(4500)]
+    [Category("Config")]
+    [DisplayName("Max wait time in MS")]
+    [Description("")]
+    public long WaitMax { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Party")]
+    [DisplayName("Handle Party Requests")]
+    [Description("")]
+    public bool PartyR { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Party")]
+    [DisplayName("Accept request?")]
+    [Description("If true it will accept, if false it will decline")]
+    public bool PartyRAccept { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Guild")]
+    [DisplayName("Handle Guild Requests")]
+    [Description("")]
+    public bool GuildR { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Guild")]
+    [DisplayName("Accept request?")]
+    [Description("If true it will accept, if false it will decline")]
+    public bool GuildRAccept { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Trade")]
+    [DisplayName("Handle Trade Requests")]
+    [Description("")]
+    public bool TradeR { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Trade")]
+    [DisplayName("Accept request?")]
+    [Description("If true it will accept, if false it will decline")]
+    public bool TradeRAccept { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Duel")]
+    [DisplayName("Handle Duel Requests")]
+    [Description("")]
+    public bool DuelR { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Duel")]
+    [DisplayName("Accept request?")]
+    [Description("If true it will accept, if false it will decline")]
+    public bool DuelRAccept { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("Rezz")]
+    [DisplayName("Handle Rezz Requests")]
+    [Description("")]
+    public bool RezzR { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("Rezz")]
+    [DisplayName("Accept request?")]
+    [Description("If true it will accept, if false it will decline")]
+    public bool RezzRAccept { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("RCheck")]
+    [DisplayName("Handle Ready Checks")]
+    [Description("")]
+    public bool Rcheck { get; set; }
+
+    [Setting]
+    [DefaultValue(false)]
+    [Category("RCheck")]
+    [DisplayName("Accept check?")]
+    [Description("If true it will accept, if false it will decline")]
+    public bool RcheckAccept { get; set; }
+
+    [Setting]
+    [DefaultValue(true)]
+    [Category("LootRolls")]
+    [DisplayName("Handle Loot Rolls")]
+    [Description("This will select the below option when loot roll windows appear")]
+    public bool LootR { get; set; }
+
+    [Setting]
+    [DefaultValue("Greed")]
+    [Category("LootRolls")]
+    [DisplayName("Need, Greed or Pass?")]
+    [Description("")]
+    [DropdownList(new string[] { "Need", "Greed", "Pass" })]
+    public short LootRSetting { get; set; }
+
+    private mRequestHandlerSettings()
     {
+        PartyR = true;
+        PartyRAccept = false;
+        GuildR = true;
+        GuildRAccept = false;
+        TradeR = true;
+        TradeRAccept = false;
+        DuelR = true;
+        DuelRAccept = false;
+        RezzR = true;
+        RezzRAccept = false;
+        Rcheck = true;
+        RcheckAccept = false;
+        LootR = true;
+        LootRSetting = 1;
+        WaitMin = 500;
+        WaitMax = 4500;
+    }
 
-        [Setting]
-        [DefaultValue(500)]
-        [Category("1. Config")]
-        [DisplayName("Min wait time in MS")]
-        [Description("")]
-        public long WaitMin { get; set; }
+    public static mRequestHandlerSettings CurrentSetting { get; set; }
 
-        [Setting]
-        [DefaultValue(4500)]
-        [Category("1. Config")]
-        [DisplayName("Max wait time in MS")]
-        [Description("")]
-        public long WaitMax { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("2. Party")]
-        [DisplayName("a. Handle Party Requests")]
-        [Description("")]
-        public bool PartyR { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        [Category("2. Party")]
-        [DisplayName("b. Accept request?")]
-        [Description("If true it will accept, if false it will decline")]
-        public bool PartyRAccept { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("3. Guild")]
-        [DisplayName("a. Handle Guild Requests")]
-        [Description("")]
-        public bool GuildR { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        [Category("3. Guild")]
-        [DisplayName("b. Accept request?")]
-        [Description("If true it will accept, if false it will decline")]
-        public bool GuildRAccept { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("4. Trade")]
-        [DisplayName("a. Handle Trade Requests")]
-        [Description("")]
-        public bool TradeR { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        [Category("4. Trade")]
-        [DisplayName("b. Accept request?")]
-        [Description("If true it will accept, if false it will decline")]
-        public bool TradeRAccept { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("5. Duel")]
-        [DisplayName("a. Handle Duel Requests")]
-        [Description("")]
-        public bool DuelR { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        [Category("5. Duel")]
-        [DisplayName("b. Accept request?")]
-        [Description("If true it will accept, if false it will decline")]
-        public bool DuelRAccept { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("6. Rezz")]
-        [DisplayName("a. Handle Rezz Requests")]
-        [Description("")]
-        public bool RezzR { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        [Category("6. Rezz")]
-        [DisplayName("b. Accept request?")]
-        [Description("If true it will accept, if false it will decline")]
-        public bool RezzRAccept { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("7. RCheck")]
-        [DisplayName("a. Handle Ready Checks")]
-        [Description("")]
-        public bool Rcheck { get; set; }
-
-        [Setting]
-        [DefaultValue(false)]
-        [Category("7. RCheck")]
-        [DisplayName("b. Accept check?")]
-        [Description("If true it will accept, if false it will decline")]
-        public bool RcheckAccept { get; set; }
-
-        [Setting]
-        [DefaultValue(true)]
-        [Category("8. LootRolls")]
-        [DisplayName("a. Handle Loot Rolls")]
-        [Description("This will select the below option when loot roll windows appear")]
-        public bool LootR { get; set; }
-
-        [Setting]
-        [DefaultValue("Greed")]
-        [Category("8. LootRolls")]
-        [DisplayName("b. Need, Greed or Pass?")]
-        [Description("")]
-        [DropdownList(new string[] { "Need","Greed","Pass" })]
-        public short LootRSetting { get; set; }
-
-        private mRequestHandlerSettings()
+    public bool Save()
+    {
+        try
         {
-            PartyR = true;
-            PartyRAccept = false;
-            GuildR = true;
-            GuildRAccept = false;
-            TradeR = true;
-            TradeRAccept = false;
-            DuelR = true;
-            DuelRAccept = false;
-            RezzR = true;
-            RezzRAccept = false;
-            Rcheck = true;
-            RcheckAccept = false;
-            LootR = true;
-            LootRSetting = 1;
-            WaitMin = 500;
-            WaitMax = 4500;
+            return Save(AdviserFilePathAndName("mRequestHandler", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
-
-        public static mRequestHandlerSettings CurrentSetting { get; set; }
-
-        public bool Save()
+        catch (Exception e)
         {
-            try
-            {
-                return Save(AdviserFilePathAndName("mRequestHandler", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mRequestHandlerSettings > Save(): " + e);
-                return false;
-            }
-        }
-
-        public static bool Load()
-        {
-            try
-            {
-                if (File.Exists(AdviserFilePathAndName("mRequestHandler", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
-                {
-                    CurrentSetting =
-                        Load<mRequestHandlerSettings>(AdviserFilePathAndName("mRequestHandler", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-                    return true;
-                }
-                CurrentSetting = new mRequestHandlerSettings();
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mRequestHandlerSettings > Load(): " + e);
-            }
+            Logging.WriteError("mRequestHandlerSettings > Save(): " + e);
             return false;
         }
+    }
+
+    public static bool Load()
+    {
+        try
+        {
+            if (File.Exists(AdviserFilePathAndName("mRequestHandler", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            {
+                CurrentSetting =
+                    Load<mRequestHandlerSettings>(AdviserFilePathAndName("mRequestHandler", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                return true;
+            }
+            CurrentSetting = new mRequestHandlerSettings();
+        }
+        catch (Exception e)
+        {
+            Logging.WriteError("mRequestHandlerSettings > Load(): " + e);
+        }
+        return false;
     }
 }

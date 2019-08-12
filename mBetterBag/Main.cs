@@ -140,53 +140,54 @@ public class Main : wManager.Plugin.IPlugin
         mBetterBagSettings.CurrentSetting.Save();
     }
 
-    [Serializable]
-    public class mBetterBagSettings : Settings
+    
+}
+[Serializable]
+public class mBetterBagSettings : Settings
+{
+
+    [Setting]
+    [Category("Settings")]
+    [DisplayName("Number")]
+    [Description("Description")]
+    public bool ReplaceBags { get; set; }
+
+    private mBetterBagSettings()
     {
+        ReplaceBags = true;
+    }
 
-        [Setting]
-        [Category("Settings")]
-        [DisplayName("Number")]
-        [Description("Description")]
-        public bool ReplaceBags { get; set; }
+    public static mBetterBagSettings CurrentSetting { get; set; }
 
-        private mBetterBagSettings()
+    public bool Save()
+    {
+        try
         {
-            ReplaceBags = true;
+            return Save(AdviserFilePathAndName("mBetterBag", ObjectManager.Me.Name + "." + Usefuls.RealmName));
         }
-
-        public static mBetterBagSettings CurrentSetting { get; set; }
-
-        public bool Save()
+        catch (Exception e)
         {
-            try
-            {
-                return Save(AdviserFilePathAndName("mBetterBag", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mBetterBagSettings > Save(): " + e);
-                return false;
-            }
-        }
-
-        public static bool Load()
-        {
-            try
-            {
-                if (File.Exists(AdviserFilePathAndName("mBetterBag", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
-                {
-                    CurrentSetting =
-                        Load<mBetterBagSettings>(AdviserFilePathAndName("mBetterBag", ObjectManager.Me.Name + "." + Usefuls.RealmName));
-                    return true;
-                }
-                CurrentSetting = new mBetterBagSettings();
-            }
-            catch (Exception e)
-            {
-                Logging.WriteError("mBetterBagSettings > Load(): " + e);
-            }
+            Logging.WriteError("mBetterBagSettings > Save(): " + e);
             return false;
         }
+    }
+
+    public static bool Load()
+    {
+        try
+        {
+            if (File.Exists(AdviserFilePathAndName("mBetterBag", ObjectManager.Me.Name + "." + Usefuls.RealmName)))
+            {
+                CurrentSetting =
+                    Load<mBetterBagSettings>(AdviserFilePathAndName("mBetterBag", ObjectManager.Me.Name + "." + Usefuls.RealmName));
+                return true;
+            }
+            CurrentSetting = new mBetterBagSettings();
+        }
+        catch (Exception e)
+        {
+            Logging.WriteError("mBetterBagSettings > Load(): " + e);
+        }
+        return false;
     }
 }
